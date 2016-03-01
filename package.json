@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-assets",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Transforms importing of asset files at compile time using Babel",
   "main": "lib/index.js",
   "author": "Jake Murzy <jake@murzy>",
