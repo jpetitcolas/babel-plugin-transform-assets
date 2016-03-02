@@ -33,7 +33,7 @@
     "clean": "rimraf lib",
     "build": "npm run clean && node node_modules/.bin/babel src --out-dir lib",
     "lint": "node node_modules/.bin/eslint src test",
-    "test": "node node_modules/.bin/mocha --compilers js:babel-core/register 'test/**/*.spec.js'"
+    "test": "npm run lint && node node_modules/.bin/mocha --compilers js:babel-core/register 'test/**/*.spec.js'"
   },
   "repository": {
     "type": "git",

@@ -6,6 +6,20 @@ Transforms importing of asset files at compile time using Babel. This plugin rem
 [![npm version](https://img.shields.io/npm/v/babel-plugin-transform-assets.svg?style=flat-square)](https://www.npmjs.com/package/babel-plugin-transform-assets)
 [![npm](https://img.shields.io/npm/l/babel-plugin-transform-assets.svg)](https://github.com/jmurzy/babel-plugin-transform-assets/blob/master/LICENSE.md)
 
+## Example
+
+```js
+import file from '../file.txt';
+```
+
+will be transformed to
+
+```js
+var file = 'file.txt?9LDjftP';
+```
+
+See the spec for [more examples](https://github.com/jmurzy/babel-plugin-transform-assets/blob/master/test/index.spec.js).
+
 ## Requirements
 [Babel](https://github.com/babel/babel) v6 or higher.
 
@@ -43,5 +57,10 @@ require('babel-core').transform('code', {
 
 ### Release Notes
 
-* 0.1.0 Minor changes, Update dependencies
+* 0.2.0 Minor changes, Update dependencies
 * 0.0.1 Initial release
+
+
+### Contributing
+
+Contributions are very welcome—bug fixes, features, documentation, tests. Just make sure the tests are passing.
