@@ -44,7 +44,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.file = undefined;
-
 var _file = 'file.txt?9LDjftP';
 
 var _file2 = _interopRequireDefault(_file);
