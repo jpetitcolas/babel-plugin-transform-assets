@@ -57,10 +57,14 @@ require('babel-core').transform('code', {
 
 ### Release Notes
 
-* 0.2.0 Minor changes, Update dependencies
+* 0.2.0 Minor changes, Bump dependencies
 * 0.0.1 Initial release
 
 
 ### Contributing
 
 Contributions are very welcome—bug fixes, features, documentation, tests. Just make sure the tests are passing.
+
+### Related Projects
+
+[babel-plugin-css-modules-transform](https://github.com/michalkvasnicak/babel-plugin-css-modules-transform)
