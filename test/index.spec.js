@@ -11,7 +11,7 @@ describe('transforms assets', () => {
       babelrc: false,
       presets: [ 'es2015' ],
       plugins: [
-        [ '../src/index.js', config ]
+        [ '../../src/index.js', config ]
       ]
     })
 
@@ -59,7 +59,7 @@ exports.file = _file2.default;`)
       babelrc: false,
       presets: [ 'es2015' ],
       plugins: [
-        [ '../src/index.js', {
+        [ '../../src/index.js', {
           extensions: [ 'txt' ]
         } ]
       ]
