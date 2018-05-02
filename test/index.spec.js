@@ -1,4 +1,4 @@
-import { transformFileSync } from 'babel-core';
+import { transformFileSync } from '@babel/core';
 import { expect } from 'chai';
 import path from 'path';
 import fs from 'fs';
@@ -9,28 +9,26 @@ describe('transforms assets', () => {
   const transform = (filename, config = {}) =>
     transformFileSync(path.resolve(__dirname, filename), {
       babelrc: false,
-      presets: ['es2015'],
+      presets: ['@babel/es2015'],
       plugins: [
-        ['../../src/index.js', config],
+        ['./src/index.js', config],
       ],
     });
 
   it('replaces require statements with filename', () => {
     expect(transform('fixtures/require-txt.js', {
       extensions: ['txt'],
-    }).code).to.be.equal(`'use strict';
+    }).code).to.be.equal(`"use strict";
 
-var file = 'file.txt?9LDjftP';`);
+var file = "file.txt?9LDjftP";`);
   });
 
   it('replaces import statements with filename', () => {
     expect(transform('fixtures/import-txt.js', {
       extensions: ['txt'],
-    }).code).to.be.equal(`'use strict';
+    }).code).to.be.equal(`"use strict";
 
-var _file = 'file.txt?9LDjftP';
-
-var _file2 = _interopRequireDefault(_file);
+var _file = _interopRequireDefault("file.txt?9LDjftP");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }`);
   });
@@ -38,37 +36,37 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   it('replaces import statements with filename and then exports', () => {
     expect(transform('fixtures/import-export-txt.js', {
       extensions: ['txt'],
-    }).code).to.be.equal(`'use strict';
+    }).code).to.be.equal(`"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.file = undefined;
-var _file = 'file.txt?9LDjftP';
+Object.defineProperty(exports, "file", {
+  enumerable: true,
+  get: function get() {
+    return _file.default;
+  }
+});
 
-var _file2 = _interopRequireDefault(_file);
+var _file = _interopRequireDefault("file.txt?9LDjftP");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.file = _file2.default;`);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }`);
   });
 
 
   it('replaces import statement with filename via gulp', (cb) => {
     const stream = gulpBabel({
       babelrc: false,
-      presets: ['es2015'],
+      presets: ['@babel/es2015'],
       plugins: [
-        ['../../src/index.js', { extensions: ['txt'] }],
+        ['./src/index.js', { extensions: ['txt'] }],
       ],
     });
 
     stream.on('data', (file) => {
-      expect(file.contents.toString()).to.be.equal(`'use strict';
+      expect(file.contents.toString()).to.be.equal(`"use strict";
 
-var _file = 'file.txt?9LDjftP';
-
-var _file2 = _interopRequireDefault(_file);
+var _file = _interopRequireDefault("file.txt?9LDjftP");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }`);
     });
@@ -85,15 +83,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     stream.end();
   });
 
-  it('throws error when import/require statements are empty', () => {
-    expect(() => transform('fixtures/empty-require.js', {
+  it('removes global requires', () => {
+    expect(transform('fixtures/empty-require.js', {
       extensions: ['txt'],
-    })).to
-      .throw(/^.+: Found empty import from .+\.$/);
+    }).code).to.be.equal('"use strict";');
+  });
 
-    expect(() => transform('fixtures/empty-import.js', {
+  it('fixtures/empty-import.js', () => {
+    expect(transform('fixtures/empty-import.js', {
       extensions: ['txt'],
-    })).to
-      .throw(/^.+: Found empty import from .+\.$/);
+    }).code).to.be.equal('"use strict";');
   });
 });

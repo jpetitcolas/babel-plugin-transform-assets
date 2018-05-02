@@ -51,16 +51,16 @@ export default function transformAssets({ types: t }) {
         if (currentConfig.extensions.find(ext => args[0].value.endsWith(ext))) {
           const [{ value: filePath }] = args;
 
-          if (!t.isVariableDeclarator(path.parent)) {
-            throw new Error(`Found empty import from ${filePath}.`);
+          if (!t.isExpressionStatement(path.parent)) {
+            const from = resolveModulePath(file.opts.filename);
+            /* eslint-disable global-require, import/no-dynamic-require, new-cap */
+            const p = require(resolve(from, filePath));
+
+            path.replaceWith(t.StringLiteral(p));
+            /* eslint-enable */
+          } else {
+            path.remove();
           }
-
-          const from = resolveModulePath(file.opts.filename);
-          /* eslint-disable global-require, import/no-dynamic-require, new-cap */
-          const p = require(resolve(from, filePath));
-
-          path.replaceWith(t.StringLiteral(p));
-          /* eslint-enable */
         }
       },
     },
